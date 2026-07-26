@@ -45,14 +45,12 @@ router.post(
   "/:token/accept",
   userAuth,
   writeLimiter,
-  requirePermission("organizations", "leave"),
   acceptInvitation,
 );
 router.post(
   "/:token/reject",
   userAuth,
   writeLimiter,
-  requirePermission("organizations", "leave"),
   rejectInvitation,
 );
 router.delete(
