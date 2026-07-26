@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
+import AppContent from "../context/AppContent";
 import { toast } from "react-toastify";
 import { Loader2, CheckCircle2 } from "lucide-react";
 import ErrorState from "../components/ErrorState.jsx";
@@ -14,6 +15,7 @@ import useLiveTranscription from "../hooks/useLiveTranscription";
 
 const MeetingRoom = () => {
   const { roomId } = useParams();
+  const { userData } = useContext(AppContent);
   const [duration, setDuration] = useState(0);
   const [showNotes, setShowNotes] = useState(false);
 
@@ -48,7 +50,7 @@ const MeetingRoom = () => {
     setCaptions,
     setTranscriptSegments,
     setTranscriptionEnabled,
-  });
+  }, userData);
 
   // Transcription
   const { toggleTranscription } = useLiveTranscription(
@@ -158,7 +160,7 @@ const MeetingRoom = () => {
                   {!cameraOn && (
                     <div className="absolute inset-0 flex items-center justify-center bg-gray-800">
                       <div className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center text-3xl font-bold text-white shadow-xl">
-                        You
+                        {userData?.name ? userData.name.split(" ").map(n => n[0]).join("").toUpperCase() : "You"}
                       </div>
                     </div>
                   )}
@@ -166,7 +168,7 @@ const MeetingRoom = () => {
                     <span
                       className={`w-2 h-2 rounded-full ${micOn ? "bg-green-500" : "bg-red-500"}`}
                     />
-                    <span>You</span>
+                    <span>{userData?.name || "You"} (You)</span>
                   </div>
                 </div>
 

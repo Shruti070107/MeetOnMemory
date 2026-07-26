@@ -12,7 +12,7 @@ import Terms from "../pages/Terms.jsx";
 import Security from "../pages/Security.jsx";
 import Contact from "../pages/Contact.jsx";
 import CookiePolicy from "../pages/CookiePolicy.jsx";
-import MeetingRoom from "../pages/MeetingRoom.jsx";
+
 import Status from "../pages/Status.jsx";
 import HelpCenter from "../pages/HelpCenter.jsx";
 import Careers from "../pages/Careers.jsx";
@@ -36,7 +36,7 @@ const PublicRoutes = (
       path="/organizations/:slug"
       element={<PublicOrganizationProfile />}
     />
-    <Route path="/meeting-room/:roomId" element={<MeetingRoom />} />
+
     <Route path="/shared/:hash" element={<PublicSharedView />} />
   </React.Fragment>
 );

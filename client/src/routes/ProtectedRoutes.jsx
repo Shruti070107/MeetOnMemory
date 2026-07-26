@@ -5,6 +5,7 @@ import ProtectedRoute from "../components/ProtectedRoute.jsx";
 import AccessDenied from "../pages/AccessDenied.jsx";
 
 // --- Protected Pages ---
+import MeetingRoom from "../pages/MeetingRoom.jsx";
 import MeetingListPage from "../pages/MeetingListPage.jsx";
 import OrganizationHub from "../pages/OrganizationHub.jsx";
 import JoinOrganizationPage from "../pages/JoinOrganizationPage.jsx";
@@ -197,6 +198,14 @@ const ProtectedRoutes = (
       element={
         <ProtectedRoute resource="meetings" action="view">
           <TranscriptViewer />
+        </ProtectedRoute>
+      }
+    />
+    <Route
+      path="/meeting-room/:roomId"
+      element={
+        <ProtectedRoute resource="meetings" action="view">
+          <MeetingRoom />
         </ProtectedRoute>
       }
     />

@@ -4,7 +4,7 @@ import Peer from "simple-peer";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-export default function useWebRTC(roomId, callbacks) {
+export default function useWebRTC(roomId, callbacks, userData) {
   const navigate = useNavigate();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -43,7 +43,22 @@ export default function useWebRTC(roomId, callbacks) {
       }, 100);
 
       socketRef.current = io(backendUrl, { transports: ["websocket"] });
-      const userInfo = { name: "You" };
+
+      socketRef.current.on("connect_error", (err) => {
+        console.error("Socket connection error:", err.message);
+        toast.error(`Connection failed: ${err.message || "Unauthorized"}`);
+        setLoading(false);
+        navigate("/dashboard");
+      });
+
+      socketRef.current.on("error", (data) => {
+        console.error("Socket error:", data.message);
+        toast.error(`Meeting Error: ${data.message || "Access denied"}`);
+        setLoading(false);
+        navigate("/dashboard");
+      });
+
+      const userInfo = { name: userData?.name || userData?.email || "Participant" };
 
       socketRef.current.emit("join-meeting", { roomId, userInfo });
 
@@ -173,7 +188,7 @@ export default function useWebRTC(roomId, callbacks) {
         userToSignal,
         callerID,
         signal,
-        userInfo: { name: "You" },
+        userInfo: { name: userData?.name || userData?.email || "Participant" },
       });
     });
 
